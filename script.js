@@ -12,13 +12,8 @@ function initMap() {
     },
     zoom: 2
   });
-
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    title: 'Hello World!'
-  });
 }
+
 
 var $body = $('Body');
 
@@ -32,7 +27,7 @@ function getData (event) {
   var $xhr = $.getJSON(string);
 
   $xhr.done(function(data) {
-      //console.log(data.features);
+
       $.each(data.features, function(){
         let $element = $('<div>');
         let $time = new Date(this.properties.time);
@@ -59,6 +54,12 @@ function getData (event) {
         $coords.append($('<span>').html($long));
         $element.append($coords);
         $body.append($element);
+
+        var latLng = new google.maps.LatLng($lat,$long);
+        var marker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
       });
   });
   $xhr.fail(function(err) {
